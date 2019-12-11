@@ -1,3 +1,10 @@
+// Splash Page //
+const show = document.querySelector('.over-button');
+const pageOverlay = document.querySelector('.page-overlay');
+show.addEventListener('click', function() {
+  pageOverlay.style.display = 'none';
+});
+
 const url = "https://randomuser.me/api/?results=12&nat=US&noinfo";
 const grid = document.querySelector('#grid');
 const names = document.getElementsByClassName('name');

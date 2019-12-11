@@ -286,3 +286,61 @@ img {
     align-items: stretch;
   }
 }
+
+/* Welcome Styles */
+.page-overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  z-index: 1000;
+  background: 
+    radial-gradient(rgba(106, 107, 210, .8) 27%, rgba(0,0,0,0) 27%) center/18px 18px,
+    linear-gradient(225deg, rgba(77,102,232,1) 0%, rgba(101,108,215,1) 35%, rgba(154,122,182,1) 95%);
+}
+
+.over-container {
+  width: 60%;
+  max-width: 560px;
+}
+
+.over-title {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  color: #EF9191
+}
+
+.over-des {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: #ffe1d0;
+}
+
+.over-button {
+  padding: 1rem;
+  margin-top: .8rem;
+  width: 90%;
+  max-width: 235px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(101,108,215,1);
+  background-color: #fef3ec;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .over-title {
+    font-size: 6rem;
+  }
+
+  .over-button {
+    width: 40%;
+  }
+}
