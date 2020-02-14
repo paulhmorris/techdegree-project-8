@@ -1,21 +1,30 @@
 // Splash Page //
-const show = document.querySelector('.over-button');
-const pageOverlay = document.querySelector('.page-overlay');
-show.addEventListener('click', function() {
-  pageOverlay.style.display = 'none';
+const show = document.querySelector(".over-button");
+const pageOverlay = document.querySelector(".page-overlay");
+show.addEventListener("click", function() {
+  pageOverlay.style.display = "none";
 });
 
+// Variables //
 const url = "https://randomuser.me/api/?results=12&nat=US&noinfo";
-const grid = document.querySelector('#grid');
-const names = document.getElementsByClassName('name');
-const items = document.getElementsByClassName('grid-item');
-const emails = document.getElementsByClassName('email');
-const overlay = document.querySelector('#overlay');
+const grid = document.querySelector("#grid");
+const names = document.getElementsByClassName("name");
+const items = document.getElementsByClassName("grid-item");
+const emails = document.getElementsByClassName("email");
+const overlay = document.querySelector("#overlay");
 
 let clickedUser = 0;
 let users = [];
 
 // Random User API Functions //
+function checkStatus(response) {
+  if (response.ok) {
+    return Promise.resolve(response);
+  } else {
+    return Promise.reject(new Error(response.statusText));
+  }
+}
+
 async function fetchData(url) {
   return fetch(url)
     .then(checkStatus)
@@ -26,22 +35,13 @@ async function fetchData(url) {
       addListeners(items);
       console.log(data);
     })
-    .catch(error => console.log('Looks like there was a problem:', error));
-}
-
-function checkStatus(response) {
-  if (response.ok) {
-    return Promise.resolve(response);
-  } else {
-    return Promise.reject(new Error(response.statusText));
-  }
+    .catch(error => console.log("Looks like there was a problem:", error));
 }
 
 // Content Generation Functions //
 function generateItems(data) {
   const items = data.results.map(item => {
-    grid.innerHTML +=
-      `
+    grid.innerHTML += `
         <div class="grid-item flex-row-center">
           <img class="profile-pic" src="${item.picture.large}" alt="">
           <div class="text-container flex-column-center">
@@ -63,8 +63,8 @@ function addListeners(arr) {
       generateOverlay(user);
       console.log(user);
 
-      $('body').addClass('is-dimmed');
-      $('#overlay').css("display", "flex");
+      $("body").addClass("is-dimmed");
+      $("#overlay").css("display", "flex");
     });
   }
 }
@@ -72,8 +72,7 @@ function addListeners(arr) {
 // Fill overlay with information
 function generateOverlay(user) {
   const dob = new Date(Date.parse(user.dob.date)).toLocaleDateString(navigator.language);
-  let html =
-    `
+  let html = `
     <p id="left" class="left">❮</p>
     <div class="over-wrapper">
       <p id="close">&#10005;</p>
@@ -94,14 +93,14 @@ function generateOverlay(user) {
     <p id="right" class="right">❯</p>
     `;
   overlay.innerHTML = html;
-  
+
   // Event Listeners
-  $('#close').click( () => {
-    $('body').removeClass('is-dimmed');
-    $('#overlay').css("display", "none");
+  $("#close").click(() => {
+    $("body").removeClass("is-dimmed");
+    $("#overlay").css("display", "none");
   });
 
-  $('#left').on('click', () =>{
+  $("#left").on("click", () => {
     // Cycles through array at the beginning
     if (clickedUser === 0) {
       generateOverlay(users[users.length - 1]);
@@ -112,7 +111,7 @@ function generateOverlay(user) {
     clickedUser -= 1;
   });
 
-  $('#right').on('click', () => {
+  $("#right").on("click", () => {
     // Cycles through array at the end
     if (clickedUser === users.length - 1) {
       generateOverlay(users[0]);
@@ -126,16 +125,19 @@ function generateOverlay(user) {
 
 // Search Function //
 function search() {
-  let search = document.getElementById('search');
+  let search = document.getElementById("search");
   for (let i = 0; i < items.length; i++) {
-    if (names[i].textContent.toLowerCase().includes(search.value.toLowerCase()) || emails[i].textContent.toLowerCase().includes(search.value.toLowerCase())) {
-      names[i].parentNode.parentNode.style.display = '';
+    if (
+      names[i].textContent.toLowerCase().includes(search.value.toLowerCase()) ||
+      emails[i].textContent.toLowerCase().includes(search.value.toLowerCase())
+    ) {
+      names[i].parentNode.parentNode.style.display = "";
     } else {
-      names[i].parentNode.parentNode.style.display = 'none';
+      names[i].parentNode.parentNode.style.display = "none";
     }
   }
 }
 
-$('#search').on('keyup', search);
+$("#search").on("keyup", search);
 
 fetchData(url);
