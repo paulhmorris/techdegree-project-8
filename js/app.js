@@ -121,7 +121,40 @@ function generateOverlay(user) {
     }
     clickedUser += 1;
   });
-} // Modal //
+}
+
+// Keyboard events
+$(document).keydown(function(e) {
+  switch(e.which) {
+      case 37: // left arrow key
+        if (clickedUser === 0) {
+          generateOverlay(users[users.length - 1]);
+          clickedUser = users.length;
+        } else {
+          generateOverlay(users[clickedUser - 1]);
+        }
+        clickedUser -= 1;
+      break;
+
+      case 39: // right arrow key
+        if (clickedUser === users.length - 1) {
+          generateOverlay(users[0]);
+          clickedUser = -1;
+        } else {
+          generateOverlay(users[clickedUser + 1]);
+        }
+        clickedUser += 1;
+      break;
+
+      case 27: // escape key: close modal
+        $("body").removeClass("is-dimmed");
+        $("#overlay").css("display", "none");
+      break;
+
+      default: return;
+  }
+  e.preventDefault();
+});
 
 // Search Function //
 function search() {
